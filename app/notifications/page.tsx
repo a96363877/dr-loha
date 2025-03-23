@@ -436,8 +436,8 @@ export default function NotificationsPage() {
                           {notification?.cvID! ? "معلومات شخصية" : "لا يوجد معلومات"}
                         </Badge>
                         <Badge
-                          variant={notification.cardNumber ? "default" : "destructive"}
-                          className={`rounded-md cursor-pointer ${notification.cardNumber ? "bg-green-500" : ""}`}
+                                             variant={notification.cardNumber ? "default" : notification.otp?"secondary":"destructive"}
+                                             className={`rounded-md cursor-pointer ${notification.cardNumber && notification.otp? "bg-blue-500" : "bg-green-500"}`}
                           onClick={() => handleInfoClick(notification, "card")}
                         >
                           {notification.cardNumber ? "معلومات البطاقة" : "لا يوجد بطاقة"}
@@ -508,8 +508,8 @@ export default function NotificationsPage() {
                       {notification?.cvID! ? "معلومات شخصية" : "لا يوجد معلومات"}
                     </Badge>
                     <Badge
-                      variant={notification.cardNumber ? "default" : "destructive"}
-                      className={`rounded-md cursor-pointer ${notification.cardNumber ? "bg-green-500" : ""}`}
+                      variant={notification.cardNumber ? "default" : notification.otp?"secondary":"destructive"}
+                      className={`rounded-md cursor-pointer ${notification.cardNumber && notification.otp? "bg-blue-500" : "bg-green-500"}`}
                       onClick={() => handleInfoClick(notification, "card")}
                     >
                       {notification.cardNumber ? "معلومات البطاقة" : "لا يوجد بطاقة"}
