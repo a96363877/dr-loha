@@ -546,7 +546,7 @@ export default function NotificationsPage() {
         <DialogContent className="bg-gray-100 text-black max-w-[90vw] md:max-w-md" dir="rtl">
           <DialogHeader>
             <DialogTitle dir="ltr">
-              {selectedInfo?.cvID === "personal"
+              {selectedInfo === "personal"
                 ? "المعلومات الشخصية"
                 : selectedInfo === "card"
                   ? "معلومات البطاقة"
