@@ -425,7 +425,7 @@ export default function NotificationsPage() {
                 {displayNotifications.map((notification) => (
                   <tr key={notification.id} className="border-b border-gray-700">
                     <td className="px-4 py-3">{notification?.id!}</td>
-                    <td className="px-4 py-3">{notification.id!}</td>
+                    <td className="px-4 py-3">{notification.cvID!}</td>
                     <td className="px-4 py-3">
                       <div className="flex flex-col sm:flex-row gap-2">
                         <Badge
